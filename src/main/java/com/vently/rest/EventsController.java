@@ -24,7 +24,8 @@ public class EventsController {
     public String ping() {
 
         Event evt=new Event("description", new Date());
-
+        Event test = new Event("desc2", new Date());
+        
         mongo.SaveItem(evt);
         return "";
     }
