@@ -4,16 +4,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.vently.models.interfaces.Entity;
+import com.vently.services.interfaces.Configuration;
 import com.vently.services.interfaces.DatabaseClient;
 import org.bson.Document;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 
 
 public class MongoClient implements DatabaseClient {
 
+    @Inject
+    Configuration Settings;
+
     private MongoDatabase db=null;
     private ObjectMapper mapper=null;
+
+    public MongoClient(){
+        if(Settings!=null){
+
+        }
+    }
 
     public MongoClient(String host, int port){
         try {
