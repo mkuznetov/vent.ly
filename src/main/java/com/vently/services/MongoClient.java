@@ -14,21 +14,17 @@ import java.util.HashMap;
 
 public class MongoClient implements DatabaseClient {
 
-    @Inject
-    Configuration Settings;
-
     private MongoDatabase db=null;
     private ObjectMapper mapper=null;
 
-    public MongoClient(){
-        if(Settings!=null){
+    @Inject
+    public MongoClient(Configuration c){
 
-        }
-    }
-
-    public MongoClient(String host, int port){
         try {
-            com.mongodb.MongoClient mongo = new com.mongodb.MongoClient(host, port);
+            com.mongodb.MongoClient mongo = new com.mongodb.MongoClient(
+                    c.getValue("mongohost"),
+                    Integer.parseInt(c.getValue("mongoport")));
+
             db = mongo.getDatabase("vently");
 
             mapper = new ObjectMapper();
