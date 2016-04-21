@@ -10,6 +10,8 @@ import org.bson.Document;
 
 import javax.inject.Inject;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class MongoClient implements DatabaseClient {
@@ -19,7 +21,6 @@ public class MongoClient implements DatabaseClient {
 
     @Inject
     public MongoClient(Configuration c){
-
         try {
             com.mongodb.MongoClient mongo = new com.mongodb.MongoClient(
                     c.getValue("mongohost"),
@@ -65,8 +66,8 @@ public class MongoClient implements DatabaseClient {
                     coll.find(new Document(query));
                 }
             }
-        }catch(Exception ex){
-
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
         return null;

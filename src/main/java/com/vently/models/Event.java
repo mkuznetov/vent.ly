@@ -19,10 +19,4 @@ public class Event extends EntityBase {
     public void setDescription(String s){
         description=s;
     }
-
-    public Event(String Description, Date EventDate){
-        date=EventDate;
-        description=Description;
-    }
-
 }

@@ -1,18 +1,12 @@
 package com.vently.rest;
 
 import com.vently.models.Event;
-import com.vently.services.MongoClient;
-import com.vently.services.interfaces.Configuration;
 import com.vently.services.interfaces.DatabaseClient;
+import com.vently.services.interfaces.Logger;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Date;
-
 
 @Path("events")
 public class EventsController{
@@ -21,16 +15,34 @@ public class EventsController{
     DatabaseClient mongo;
 
     @Inject
-    Configuration config;
+    Logger logger;
 
     @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Event Get(@PathParam("id") String id){
+        try{
+
+        }
+        catch (Exception e){
+            logger.Error(e);
+        }
+
+        return null;
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public String ping() {
+    public String Event(Event ev) {
+        try {
 
-        Event evt=new Event("description", new Date());
-        Event test = new Event("desc2", new Date());
+        }
+        catch (Exception e){
+            logger.Error(e);
+            return "ERROR";
+        }
 
-        mongo.SaveItem(evt);
-        return "";
+        return "OK";
     }
 }
