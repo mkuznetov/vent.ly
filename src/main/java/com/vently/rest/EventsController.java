@@ -32,6 +32,7 @@ public class EventsController{
     }
 
     @POST
+    @Path("/new")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String Event(Event ev) {
