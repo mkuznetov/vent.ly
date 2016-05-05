@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				function getQuotedText(element) {
+					var id = '#' + element.toString();
+					return '"' + $(id) + '"';
+				}
+				$("#mainForm").submit(function(event) {
+					//var hostURL = "http://40.68.165.43/Local/Events"; // Azure public IP
+					var hostURL = "https://www.yandex.ru/";
+
+					$("#result").text("");
+					$.ajax({
+						method: "GET",
+						url: hostURL
+						//,
+						//data: { event : getQuotedText('event'), email : getQuotedText('event'), date : getQuotedText('date'), start : getQuotedText('start'), end : getQuotedText('end') }
+					})
+					.done(function(msg) {
+						$("#result").text("Event created: " + msg);
+					})
+					.fail(function(err) {
+						$("#result").text("Can't create event: " + err);
+						console.log(err);
+					})
+					.always(function() {
+						// TODO:
+					});
+					event.preventDefault();
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h2>Vently, v.1.0</h2>
+		<form id="mainForm" ng-app="ventlyApp" ng-controller="mainController" name="mainForm" novalidate>
+			<p>
+				Event Name:
+				<br />
+				<input id="event" type="text" size="30" name="event" ng-model="event" required />
+				<span style="color:red" ng-show="mainForm.event.$dirty && mainForm.event.$invalid">
+					<span ng-show="mainForm.event.$error.required">Event name is required.</span>
+				</span>
+			</p>
+			<p>
+				Organizer Email:
+				<br />
+				<input id="email" type="email" size="30" name="email" ng-model="email" required />
+				<span style="color:red" ng-show="mainForm.email.$dirty && mainForm.email.$invalid">
+					<span ng-show="mainForm.email.$error.required">Email is required.</span>
+					<span ng-show="mainForm.email.$error.email">Invalid email address.</span>
+				</span>
+			</p>
+			<p>
+				Event Date (DD.MM.YYYY):
+				<br />
+				<input id="date" type="text" size="30" name="date" ng-model="date" required />
+				<span style="color:red" ng-show="mainForm.date.$dirty && mainForm.date.$invalid">
+					<span ng-show="mainForm.date.$error.required">Event date is required.</span>
+				</span>
+			</p>
+			<p>
+				Time Start (HH:MM):
+				<br />
+				<input id="start" type="text" size="30" name="start" ng-model="start" required />
+				<span style="color:red" ng-show="mainForm.start.$dirty && mainForm.start.$invalid">
+					<span ng-show="mainForm.start.$error.required">Start time is required.</span>
+				</span>
+			</p>
+			<p>
+				Finish Start (HH:MM):
+				<br />
+				<input id="finish" type="text" size="30" name="finish" ng-model="finish" required />
+				<span style="color:red" ng-show="mainForm.finish.$dirty && mainForm.finish.$invalid">
+					<span ng-show="mainForm.finish.$error.required">Finish time is required.</span>
+				</span>
+			</p>
+			<p>
+<!--
+				<button id="submit">Create event</button>
+-->
+				<input id="submit" type="submit" ng-disabled=
+					"mainForm.event.$dirty && mainForm.event.$invalid ||
+					mainForm.email.$dirty && mainForm.email.$invalid ||
+					mainForm.date.$dirty && mainForm.date.$invalid ||
+					mainForm.start.$dirty && mainForm.start.$invalid ||
+					mainForm.finish.$dirty && mainForm.finish.$invalid
+				"/>
+			</p>
+		</form>
+		<span id="result"></span>
+		<script>
+			var app = angular.module('ventlyApp', []);
+			app.controller('mainController', function($scope) {
+				$scope.event = 'Summer Party 2016';
+				$scope.email = 'someone@hotmail.com';
+				$scope.date = '01.07.2016';
+				$scope.start = '12:00';
+				$scope.finish = '23:59';
+			});
+		</script>
+	</body>
+</html>

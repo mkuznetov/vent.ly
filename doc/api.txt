@@ -1,0 +1,103 @@
+
+Create new event
+================
+
+Request:
+
+HTTP GET/
+URL: <server>/events/create?owner=ContactInfo&name=EventName&date=AnyDate&from=TimeFrom&to=TimeTo&private=YesOrNo
+
+Response:
+
+HTTP 200/ OK
+{ "Result" : "OK", "NewEventId": "12345" }
+
+HTTP 201/ ERR
+{ "Result" : "ERR", "Collisions": [ { "EventId" : "11111" }, { "EventId" : "22222" }, ..., { "EventId" : "99999" } ] }
+
+HTTP 500/ ERR
+
+
+Browse all events
+=================
+
+Request:
+
+HTTP GET/
+URL: <server>/events/browse?date=SomeDate
+
+Response:
+
+HTTP 200/ OK
+{ "Result" : "OK", "Events": [ { "EventId" : "00001" }, { "EventId" : "00002" }, ..., { "EventId" : "00099" } ] }
+
+HTTP 200/ OK
+{ "Result" : "OK", "Events": [] }
+
+HTTP 500/ ERR
+
+
+Get event's details
+===================
+
+Request:
+
+HTTP GET/
+URL: <server>/events/get?id=EventId
+
+Response:
+
+HTTP 200/ OK
+{ "Result" : "OK", "Name" : "EventName", "Date" : "EventDate", "From" : "TimeFrom", "To" : "TimeTo", "Status" : "Scheduled|Started|Finished|Cancelled" }
+
+HTTP 201/ ERR
+{ "Result" : "ERR", "Status" : "InvalidId" }
+
+HTTP 500/ ERR
+
+
+Cancel event
+============
+
+Request:
+
+HTTP GET/
+URL: <server>/events/cancel?id=EventId
+
+Response:
+
+HTTP 200/ OK
+{ "Result" : "OK", "Status" : "Cancelled" }
+
+HTTP 200/ OK
+{ "Result" : "OK", "Status" : "Aborted" }
+
+HTTP 201/ ERR
+{ "Result" : "ERR", "Status" : "InvalidId" }
+
+HTTP 201/ ERR
+{ "Result" : "ERR", "Status" : "AlreadyFinished" }
+
+HTTP 500/ ERR
+
+
+Reschedule event
+================
+
+Request:
+
+HTTP GET/
+URL: <server>/events/reschedule?id=SomeId&date=SomeDate&from=TimeFrom&to=TimeTo
+
+Response:
+
+HTTP 200/ OK
+{ "Result" : "OK", "Status" : "Rescheduled" }
+
+HTTP 201/ ERR
+{ "Result" : "ERR", "Status" : "InvalidId" }
+
+HTTP 201/ ERR
+{ "Result" : "ERR", "Collisions": [ { "EventId" : "11111" }, { "EventId" : "22222" }, ..., { "EventId" : "99999" } ] }
+
+HTTP 500/ ERR
